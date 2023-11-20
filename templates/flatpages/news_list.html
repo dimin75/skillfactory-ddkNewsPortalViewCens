@@ -1,0 +1,37 @@
+<!-- templates/home.html -->
+
+{% extends 'default.html' %}
+
+{% load my_filters %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+    <h1>Welcome to the News List. All news is here:</h1>
+      <h3>Recent news</h3>
+      {{ postList.title|censor }}
+      {% if postList %}
+        <ul>
+        <table>
+                  <tr>
+               <td>Статья:</td>
+               <td>Дата добавления:</td>
+               <td>Содерждание:</td>
+           </tr>
+        {% for record in postList %}
+                  <tr>
+                <p align="left">
+                    <td><a href="/news/{{ record.pk }}"> {{ record.title|censor }}</a></td>
+                    <td>{{ record.created_at|date:'d-m-Y H:i' }}</td>
+                    <td>{{ record.text|truncatechars:20|censor }}</td>
+                </p>
+                  </tr>
+        {% endfor %}
+        </table>
+        </ul>
+      {% else %}
+          <h3>Новостей нет =(</h3>
+      {% endif %}
+{% endblock %}
